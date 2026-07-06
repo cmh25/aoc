@@ -1,0 +1,4 @@
+# AoC puzzle texts (*.txt) and inputs (*.in) are not redistributable -- see README.
+# Keep your own local copies; they are ignored here.
+*.in
+*.txt
