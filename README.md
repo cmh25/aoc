@@ -1,12 +1,11 @@
 # Advent of Code in gk
 
-Advent of Code solutions in gk.
-
+Advent of Code solutions in gk. 
 [https://github.com/cmh25/gk](https://github.com/cmh25/gk)
 
-[2025](2025/) [notes](2025/README.md)
-[2024](2024/) [notes](2024/README.md)
-[2023](2023/) [notes](2023/README.md)
+[2025](2025/) [notes](2025/README.md) 
+[2024](2024/) [notes](2024/README.md) 
+[2023](2023/) [notes](2023/README.md) 
 
 > **Authorship note:** these solutions were written by **Claude Fable 5**
 > (Anthropic's Claude, driven via Claude Code) — not by me. I posed the
