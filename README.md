@@ -1,6 +1,6 @@
 # Advent of Code in gk
 
-Advent of Code solved gk.
+Advent of Code solutions in gk.
 [https://github.com/cmh25/gk](https://github.com/cmh25/gk)
 
 [2025](2025/) [notes](2025/README.md)
