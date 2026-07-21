@@ -2,3 +2,4 @@
 # Keep your own local copies; they are ignored here.
 *.in
 *.txt
+*.out

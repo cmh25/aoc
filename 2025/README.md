@@ -2,10 +2,10 @@
 
 [Advent of Code 2025](https://adventofcode.com/2025).
 
-Run a whole suite with the `run.sh` in the gk directory.
+Run the whole suite with `run.sh` in the gk directory.
 
 ```
-GK=/path/to/gk    2025/gk/run.sh        # one-shot, or:  export GK=/path/to/gk
+GK=/path/to/gk 2025/gk/run.sh     # one-shot, or:  export GK=/path/to/gk
 ```
 
 Inputs are not committed (see the [top-level README](../README.md)); save
@@ -13,8 +13,8 @@ your own as `2025/NN.in`.
 
 ## Day-by-day notes
 
-| Day | Technique (same core idea in all three languages) |
-|-----|---------------------------------------------------|
+| Day | Technique |
+|-----|-----------|
 | 1 | signed deltas, prefix scan; part 2 counts zero-crossings by floor-division difference |
 | 2 | closed-form arithmetic series over (range, block-size); part 2 enumerates the sparse repeated-block IDs and dedups |
 | 3 | max 2-digit joltage via reverse max-scan; part 2 greedy largest-12-digit subsequence as a 12-step fold |

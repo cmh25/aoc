@@ -2,7 +2,7 @@
 
 [Advent of Code 2024](https://adventofcode.com/2024).
 
-Run a whole suite with the `run.sh` in the gk directory.
+Run the whole suite with `run.sh` in the gk directory.
 
 ```
 GK=/path/to/gk 2024/gk/run.sh     # one-shot, or:  export GK=/path/to/gk

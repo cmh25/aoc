@@ -85,7 +85,7 @@ Adverbs (valence-driven — see `doc/k3.md`):
 - `f\x` scan (running) · `x f\y` each-left · `n f\x` do-n scan · `b f\x` while scan
 - `ep[f;x]` each-prior — returns n-1 items, NO seeded first element: `ep[-;1 3 6 10]` → `2 3 4` (f[cur;prev]) IS the delta vector already — don't `1_` it · `_[n;f;x]` sliding window (n = step, sign = arg order)
 
-Useful builtins: `abs sqrt sqr exp log sin cos floor ceil` · `a div x` integer-divide · `a vs x`/`x sv y` base encode/decode · `?` roll `draw[n;m]` · `ss[a;x]` substring search · `ssr[s;from;to]` string replace · `sm` regex match · `ic`/`ci` char↔int · `in` whole-value membership (elementwise: `lin`) · `a bin x`/`a binl x` binary search in sorted `a` (count of items < x; exact hit → its index, like `a?x`) · `,/` raze · `=` group, then `{#x}'=v` gives group sizes. Full list: the builtins section of `doc/ref.md`.
+Useful builtins: `abs sqrt sqr exp log sin cos floor ceil` · `a div x` integer-divide · `a vs x`/`x sv y` base encode/decode · `?` roll `draw[n;m]` · `ss[a;x]` substring search · `ssr[s;from;to]` string replace · `sm` regex match · `ic`/`ci` char↔int · `in` whole-value membership (elementwise: `lin`) · `a bin x`/`a binl x` binary search in sorted `a` (count of items < x; exact hit → its index, like `a?x`) · bulk lookups `x?/a`, `lin`, `dvl`/`dv` hash the haystack once (O(n+m)) — the natural bulk form is also the fast one · `,/` raze · `=` group, then `{#x}'=v` gives group sizes. Full list: the builtins section of `doc/ref.md`.
 
 ## Style: avoid lambdas when a primitive chain exists
 
@@ -118,6 +118,12 @@ Only genuine atoms broadcast: a STRING left arg is a vector, so
 `"ab",'("xx";"yy")` zips char-with-string → ("axx";"byy") (length error when
 counts differ) — string padding per row still needs a lambda.
 
+**Builtins take adverbs directly** — `ic'L` (not `{ic x}'L`), `2 sv/rows`,
+`0$'","_'L`; each-each `"-"_''X` splits one level deeper; `t@\1 3 5` indexes
+each token list; `*'&'~G=" "` / `*'|'&'~G=" "` give first/last hit per row.
+Negative literals need no parens after `{`, `,`, `;`, or any verb: `{-1,-1_|\x}`,
+`-4#'e`. Vector literals apply bare via `@`: `0 1 0 -1@HH`.
+
 Reach for a lambda when the body genuinely needs one: multiple statements,
 conditionals (`$[;;]`), closures over locals, or a composition the grammar
 won't express (the `f(g'x)` family). Per-item lambdas in hot loops are the
@@ -127,7 +133,7 @@ first thing to hunt when something is slow.
 
 ```
 L:0:"input.txt"        / read file → list of line strings (no newlines)
-a 0:"out.txt"          / dyadic: write list-of-strings a to file
+"out.txt" 0:a          / dyadic: write list-of-strings a to the file (file on the LEFT)
 ```
 
 There are **two ways to turn strings into numbers**. Prefer the cast for real input; the eval trick is a terse shortcut for trusted numeric data.
@@ -287,12 +293,14 @@ Demonstrates: `*'L` / `1_'L` / `0$'…` to parse a list of strings columnwise, b
 - **Never name a global `x`, `y`, or `z`** — a lambda that references the global `z` (say a zero row for padding) silently gains valence 3 (implicit params), and calling it monadically is a baffling `valence error`. Rename the global.
 - **`a!x` with a list right operand is ROTATE, not vectorized mod**: `12!1 2 3 4 6` rotates the list. Mod is atom-right (`A!100`) — for "atom mod each" use `a!'v`. Flip side: `1!v` is a handy rotate-by-1 for cyclic neighbor pairs (`(v;1!v)`).
 - **Applying a named function to a monadic-verb result needs `@` or parens**: `f ?x` parses `?` as dyadic deal with `f` as left arg; `f ,x` is join; `f -x` is minus. Write `f@?x` / `f@,x` / `f(,x)`. (Same family as the `f(g'x)` composition pitfall.) **This `@` trick is for NAMED functions only** — with a builtin verb on the left the `@` goes monadic (atom test): `abs@-5` is `abs(@-5)` → `1`, a silently wrong answer; `ic@"A"` type-errors. (By design — the parser knows builtins' valence.) With builtins parenthesize the argument instead: `abs(-5)`, `ic(*L)`.
-- **Adverbed named verbs mid-expression**: `+/,/step/m` valence-errors (`step/` grabs `,/` as a left argument). Bind the converge result first: `r:step/m; +/,/r`.
+- **Adverbed named verbs mid-expression**: `+/,/step/m` valence-errors (`step/` grabs `,/` as a left argument). Bind the converge result first: `r:step/m; +/,/r`. Lambda literals hit it too: `{x,'y}/{f x}'!5` type-errors — parenthesize the right side, `{x,'y}/({f x}'!5)`. And a NOUN left of `,/`/`?/`/any adverbed verb becomes its left ARGUMENT, silently: `enc,/AB` is each-right JOIN, not enc applied to `,/AB` — write `enc@,/AB`.
 - **No broadcast of a vector across matrix rows**: `m-v` (n×3 matrix minus 3-vector) is a `length` error. Broadcast with each-left: `m-\v`. (`x f\y` = each-left, `x f/y` = each-right; an *atom* does broadcast without help.)
 - **Indexing a vector by each of several index-vectors**: `{v x}'gs`, not `v@'gs` — `@'` is each-*both* (pairs `v` with `gs` elementwise → `length` error). Same trap as the composition one: `f'({g x}'y)` needs its parens.
 - **Every dyad evaluates BOTH operands (right one first) — `&`/`|` are not short-circuit.** A "guarded" test like `(0<#x)&(x 0)=":"` still indexes empty `x` and dies. Guard with cond: `$[0<#x;(x 0)=":";0]`.
 - `ic`/`ci` (char↔int) are builtins — `ci` is a very tempting variable name ("column index") and assigning it is a `reserved error`.
-- Indexed **global** assign works with vector indices, including into matrices: `p[ra]::rb`, `A[i;js]::1j`.
+- Indexed **global** assign works with vector indices, including into matrices: `p[ra]::rb`, `A[i;js]::1j`. But **`a[i]:v` / `a[i]::v` COPY the whole vector** (O(n) per write) — fine for occasional updates, catastrophic in a 1e6+-iteration loop (Van Eck, linked-list sims: 1M writes took 3 min). To mutate one slot **in place** (O(1)), amend the global **by symbol**: `` @[`a;i;:;v] `` (or `` @[`a;i;+;1] ``) — passing the array by name lets gk amend without copying (~160× faster; 10M-write sims become ~20 s).
+- **Closures over enclosing locals are lexical** — a lambda captures its defining scope, and passing it to another function, returning it, or storing it preserves that capture (`{c:x;{c}}` read anywhere still sees `c`). This holds for bare lambdas, **closed projections** (`{c:x;{[a;b]a+b+c}[10]}` returned and applied later), and **dicts whose every entry is a lambda/projection** (the OOP pattern — all entries share one captured scope). Primitives/builtins project fine but capture nothing. This was a real bug until two 2026-07-07 fixes: the `fncp_` scope-preservation fix (bare lambdas passed to another function rebound to the *caller's* scope — silently wrong value or `value` error) and the `closure_any`/`proj_captures` return-path extension (returned projections lost their capture entirely). **On a gk build without these** (prod ≤ v4.0.0), work around it by passing the captured value as an explicit param or closing over a **global** (`::`) instead of an enclosing local.
+- **Flat 2-D indices need parens: `r*K+c` is `r*(K+c)`** (right-to-left), NOT `(r*K)+c`. Write `c+r*K` (the `+c` binds last) or parenthesize — otherwise row-major `PL[r*K+c]` silently reads the wrong cell.
 - **Two index vectors are a CROSS PRODUCT, not pairwise scatter**: `.[m;(I;J);:;v]` (and `m[I;J]`) hits every (i,j) combination. To read/write a SET of points, flatten: `@[(h*w)#0;X+w*Y;:;v]`, then `(h,w)#` back. Also `m[!0;J]` (empty row-index + column spec) is an `index error` — guard the empty case.
 - **Reshape with computed dims needs `,`**: `(W,W)#x` — `W W#x` is a `type error` (juxtaposition builds vectors from literals only, `3 3#x` is fine).
 - **Comment-only lines inside a multi-line lambda** (incl. a comment right after the param list on the opening line) break direct calls `f[x;y]` in gk releases up to v3.0.0 — the call silently yields nothing, and a script aborts load (`load: f.k ... + N`, rc=0). Fixed upstream; until your gk has the fix, keep comments on their own top-level lines or after body code.
@@ -301,5 +309,9 @@ Demonstrates: `*'L` / `1_'L` / `0$'…` to parse a list of strings columnwise, b
 - **`()` is not an atom** — it doesn't broadcast in each-both: `(),'1 2 3` is a `length` error (a genuine atom left arg would recycle).
 - **One-char strings are char ATOMS**: `("A";"R")` collapses to the string `"AR"`, so whole-string lookups against that "list" silently miss. Build a real list of 1-char strings with enlist: `((,"A");,"R")`.
 - **`-` fuses into a following numeric cast literal**: `-0j$x` lexes as the literal `-0j` (which is just `0j`) then cast — the negation is silently lost. Write `-(0j$x)` or `0j-0j$x`. (The negative-literal trap in cast clothing.)
-- **`_` floor and float mod are EXACT — comparison tolerance applies to `=`/`<`/`>`/`~` only**: `2=1.9999999999999`→1 but `_1.9999999999999`→1 and `1.8!0.2`→~0.2 (exact — same answers as Python/C). So `_100*0.29`→28: the classic float-floor gotcha applies; round with `_0.5+x` when you mean nearest. (gk ≤v3.0.0 releases floored tolerantly AND corrupted i64-range floats: `_1e14+7.0`→1e14+8 there.) Parse big integers from strings with `0j$'`; never route them through floats. (Relatedly, `0j$12.0` is width-FORMAT of a number → `""` — numeric `$`-casts take strings only.)
+- **All float operations are EXACT — no fp tolerance anywhere** (same answers as Python/C): `(0.1+0.2)=0.3`→0, `2=1.9999999999999`→0, `_1.9999999999999`→1, `1.8!0.2`→~0.2. So `_100*0.29`→28: the classic float-floor gotcha applies; round with `_0.5+x` when you mean nearest, and compare computed floats with explicit slack (`1e-9>abs x-y`), not `=`/`~`. (gk ≤v3.0.0 releases had tolerant `=`/`<`/`>`/`~` AND a tolerant floor that corrupted i64-range floats: `_1e14+7.0`→1e14+8 there.) Parse big integers from strings with `0j$'`; never route them through floats. (Relatedly, `0j$12.0` is width-FORMAT of a number → `""` — numeric `$`-casts take strings only.)
+- **Dict keys must be valid names** — a letter, then letters/digits/underscores; anything else (`` `$"a-b" ``, `` `$"9x" ``, dots) is a `domain error` on assignment. For memo tables keyed by arbitrary strings (state-space searches), map the string to name characters first: `` ky:`$@[s;&s=".";:;"e"] `` — `` `$"str" `` interns a string as a symbol, and dict lookup by sym is hashed, so a global dict is an O(1) memo (`v:MEMO ky; if[~v~nul; :v]` ... `MEMO[ky]::v`).
+- **A single-pair dict literal needs the enlist**: `.,`a,7` (or `.,(`a;7;)`) — `.((`a;7))` is a `value error`, because one pair isn't a list of pairs (the 1-element-list collapse again). Multi-pair `.((`a;1);(`b;2))` is fine; `.()` is the empty dict.
 - **`a?x` (dyadic find) looks up the *whole* right value as one item** — `1 2?2 2`→`2` (not found, `#a`); `(1 1;2 2;3 3)?2 2`→`1` (whole-vector match). This matches the reference, it is **not** element-wise. For "first index of each distinct" / de-dup, use group: `*'=v` = first-occurrence index per distinct value, `?v` = the distinct values, `{#x}'=v` = the counts.
+- **Tokens from a split are 1-char STRINGS, not char atoms**: after `t:" "_"new = old * 19"`, `(t 5)~"*"` is 0 (1-string vs char atom). Compare the first char: `(*t 5)~"*"`.
+- **The definitive reserved-name list** lives in the interpreter source: `grep -oE 'sp\("[a-z0-9]+"\)' src/k.c`. Names that keep biting beyond the obvious ones: `at`, `bz`, `db`, `ep`, `lt`, `vs`, `sm`, `rot`, `in`, `bin`, `di`, `and`, `or`, `not`, `shift`, `del`, `round`, `factor`, `gcd`, `lcm`, `prime` — and PARAMETER names hit it too (`{[pv;sv;r] ...}` is a parse error: `sv`).
