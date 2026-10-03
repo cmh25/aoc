@@ -14,7 +14,7 @@ ok:{[s;o] i:s 1; (op[o;s 0;i 1;i 2])=(s 2)@i 3}   / does opcode o explain sample
 M:{[s] {ok[s;x]}'!16}'S
 +/2<+/'M
 P:16 16#1                                     / P[code;op] still possible
-{P[(x 1)0]::P[(x 1)0]&{ok[x;y]}[x]'!16}'S
+{P[(x 1)0]::P[(x 1)0]&{ok[x;y]}[x]'!16}'S;
 mp:16#-1
 while[|/mp<0
   i:*&(mp<0)&1=+/'P
@@ -25,6 +25,6 @@ while[|/mp<0
 r:0 0 0 0
 run:{[i] o:mp i 0; r[i 3]::op[o;r;i 1;i 2]}
 pg:{cl x}'(2+4*ns)_L
-run'pg
+run'pg;
 r 0
 \\

@@ -30,7 +30,7 @@ pg:{[j] g:L j
   ARM,:j>gi
   WK,:,wk
   IM,:,im}
-pg'gl
+pg'gl;
 n:#U0
 dmv:{[i;t] e:u[i]*dm i
   $[IM[t;DT i]; 0; WK[t;DT i]; 2*e; e]}
