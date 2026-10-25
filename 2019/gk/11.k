@@ -18,7 +18,7 @@ run:{RUN::1;
      if[op=6; IP::$[v1=0;v2;IP+3]];
      if[(op=1)|(op=2)|(op=7)|(op=8);
         d:$[m3=2;RB+MEM[IP+3];MEM[IP+3]];
-        @[`MEM;d;:;$[op=1;v1+v2; op=2;v1*v2; op=7;v1<v2; v1=v2]]; IP::IP+4]]];
+        @[`MEM;d;:;$[op=1;v1+v2; op=2;v1*v2; op=7;0j+v1<v2; 0j+v1=v2]]; IP::IP+4]]];
  }
 / ---- day 11 ----
 prog:pp@*0:"../11.in"
