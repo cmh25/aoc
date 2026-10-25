@@ -10,12 +10,12 @@ bat:@[nu#0j; u?/outs; :; bq]
 INS:@[nu#,(); u?/outs; :; {[r](r[;0]),'u?/r[;1]}'inl]
 cc:@[nu#0; ,/{u?/x[;1]}'inl; +; 1]
 oreFor:{[amt]
-  need::nu#0j; @[`need;idF;:;amt]; cc2::cc; q::,idF;
+  need::nu#0j; @[`need;idF;:;amt]; cc2::cc; q::,idF
   while[#q;
-    o:*q; q::1_q;
+    o:*q; q::1_q
     if[~o=idO;
-      n:need o; bt:bat o; b:(n+bt-1)div bt;
-      {[b;pr] i:pr 1; @[`need;i;+;b*pr 0]; @[`cc2;i;-;1]; if[0=cc2 i; q::q,i]}[b]'INS o]];
+      n:need o; bt:bat o; b:(n+bt-1)div bt
+      {[b;pr] i:pr 1; @[`need;i;+;b*pr 0]; @[`cc2;i;-;1]; if[0=cc2 i; q::q,i]}[b]'INS o]]
   need idO}
 oreFor 1j
 T:1000000000000j

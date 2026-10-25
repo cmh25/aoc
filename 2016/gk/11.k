@@ -23,7 +23,7 @@ solve:{[G0;C0]
          while[si<#subs; sub:subs si
            nG:G; nC:C
            ti:0
-           while[ti<#sub; tok:T sub ti;
+           while[ti<#sub; tok:T sub ti
              if[0=tok 0; nG:@[nG;tok 1;:;nE]]; if[1=tok 0; nC:@[nC;tok 1;:;nE]]; ti:ti+1]
            if[valid[nG;nC]; res:res,enc[nE;nG;nC]]
            si:si+1]]

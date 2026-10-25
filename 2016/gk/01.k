@@ -9,8 +9,8 @@ x:0;y:0;d:0
 path:,0 0                          / every intersection visited (start included)
 i:0
 while[i<#toks;
-  d:(d+$[turns[i]="R";1;3])!4;
-  do[mags i; x:x+DX d; y:y+DY d; path:path,,(x;y)];
+  d:(d+$[turns[i]="R";1;3])!4
+  do[mags i; x:x+DX d; y:y+DY d; path:path,,(x;y)]
   i:i+1]
 (abs x)+abs y                      / part 1
 
@@ -19,8 +19,8 @@ seen:()
 ans:0n
 i:0
 while[(i<#path)&ans~0n;
-  p:path i;
-  $[(#seen)>seen?p; ans:p; seen:seen,,p];
+  p:path i
+  $[(#seen)>seen?p; ans:p; seen:seen,,p]
   i:i+1]
 (abs ans 0)+abs ans 1
 \\

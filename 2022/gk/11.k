@@ -11,9 +11,9 @@ FT:{0$*|" "_gl[x;5]}'!nm
 aw:{[m;w]$[2=OK m;w*w;1=OK m;w*OV m;w+OV m]}
 dm:{[m] w:aw[m;IT m]; w:$[P2;w!MM;w div 3]; CNT[m]::CNT[m]+#w; t:0=w!DV m; IT[m]::0#0j; IT[TT m]::IT[TT m],w@&t; IT[FT m]::IT[FT m],w@&~t}
 P2:0; IT:IT0; CNT:nm#0j
-do[20; dm'!nm];
+do[20; dm'!nm]
 */2#CNT@>CNT                 / part 1
 P2:1; MM:*/DV; IT:IT0; CNT:nm#0j
-do[10000; dm'!nm];
+do[10000; dm'!nm]
 */2#CNT@>CNT                 / part 2
 \\

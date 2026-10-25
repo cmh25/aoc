@@ -15,7 +15,7 @@ S:seg'L
 tls:{[g] (|/0,abbaIn'g 0)&~|/0,abbaIn'g 1}
 +/tls'S                           / part 1
 
-ssl:{[g] A:,/abas'g 0;            / all ABAs in supernets
+ssl:{[g] A:,/abas'g 0            / all ABAs in supernets
   0<|/0,{[hyp;aba] |/0,{#ss[x;y]}[;aba 1 0 1]'hyp}[g 1]'A}
 +/ssl'S                           / part 2
 \\
