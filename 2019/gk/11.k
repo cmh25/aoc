@@ -24,11 +24,11 @@ run:{RUN::1
 prog:pp@*0:"../11.in"
 enc:{[x;y](100000j*x+1000)+y+1000}
 DX:0 1 0 -1; DY:-1 0 1 0            / up,right,down,left
-colorAt:{i:kx?x; $[i<#kx; cx i; 0]}
+colorAt:{i:kx?x; $[i<#kx; cx i; 0j]}
 paint:{[k;c] i:kx?k; if[i<#kx; @[`cx;i;:;c]]; if[i=#kx; kx::kx,k; cx::cx,c]}
 robot:{[start]
  boot[prog;()]; kx::(); cx::(); px:0; py:0; hd:0
- if[start=1; kx::,enc[0;0]; cx::,1]
+ if[start=1; kx::,enc[0;0]; cx::,1j]
  while[~HALT;
    INQ::INQ,colorAt enc[px;py]
    run[]
