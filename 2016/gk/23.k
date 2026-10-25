@@ -9,7 +9,7 @@ run:{[a0]
   P:{" "_x}'L
   r:(a0;0;0;0)
   pc:0
-  while[(~pc<0)&pc<#P;
+  while[(~pc<0)&pc<#P
     t:P pc; op:t 0
     if[op~"cpy"; if[isreg t 2; r[ri t 2]:gv[r;t 1]]; pc:pc+1]
     if[op~"inc"; if[isreg t 1; r[ri t 1]+:1]; pc:pc+1]

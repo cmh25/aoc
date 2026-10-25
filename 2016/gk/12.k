@@ -12,7 +12,7 @@ NP:#P
 run:{[c0]
   r:(0;0;c0;0)
   pc:0
-  while[(~pc<0)&pc<NP;
+  while[(~pc<0)&pc<NP
     q:P pc; op:q 0
     v1:$[q 1; r q 2; q 2]
     if[op=0; r[P[pc;4]]:v1; pc:pc+1]        / cpy v1 -> reg (arg2 is a register idx)

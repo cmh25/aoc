@@ -5,10 +5,10 @@ rotr:{[s;r] rotl[s; (#s)-r!#s]}                 / rotate right by r
 
 apply:{[s;line]
   t:" "_line
-  if[(t 0)~"swap";
+  if[(t 0)~"swap"
      if[(t 1)~"position"; i:0$t 2; j:0$t 5; s:@[s;(i;j);:;s(j;i)]]
      if[(t 1)~"letter"; i:s?*t 2; j:s?*t 5; s:@[s;(i;j);:;s(j;i)]]]
-  if[(t 0)~"rotate";
+  if[(t 0)~"rotate"
      if[(t 1)~"left"; s:rotl[s;0$t 2]]
      if[(t 1)~"right"; s:rotr[s;0$t 2]]
      if[(t 1)~"based"; i:s?*t 6; s:rotr[s;1+i+(3<i)]]]

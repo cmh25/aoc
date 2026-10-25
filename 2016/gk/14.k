@@ -7,9 +7,9 @@ trip:{[h] m:((-2_h)=1_-1_h)&(1_-1_h)=2_h; $[|/m; h@*&m; 0]}
 solve:{[HA]
   keys:()
   i:0
-  while[((#keys)<64)&i<MAX-1001;
+  while[((#keys)<64)&i<MAX-1001
     c:trip HA i
-    if[~c~0;
+    if[~c~0
       j:i+1; found:0
       while[(j<i+1001)&~found; if[0<#ss[HA j; 5#c]; found:1]; j:j+1]
       if[found; keys:keys,i]]

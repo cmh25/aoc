@@ -11,7 +11,7 @@ start:(1;1); tgt:enc[(31;39)]
 visited:,enc start
 frontier:,start
 dist:0; part1:-1; part2:-1
-while[(part1<0)|part2<0;
+while[(part1<0)|part2<0
   nb:?,/nbr'frontier
   ks:enc'nb
   m:~ks lin visited

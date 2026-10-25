@@ -18,7 +18,7 @@ solve:{[G0;C0]
     res:()
     dq:0
     while[dq<2; nE:E+-1 1 dq
-      if[(~nE<0)&nE<4;
+      if[(~nE<0)&nE<4
          si:0
          while[si<#subs; sub:subs si
            nG:G; nC:C
@@ -33,7 +33,7 @@ solve:{[G0;C0]
   visited:,start
   frontier:,start
   dist:0
-  while[1;
+  while[1
     nxt:?,/nbrs'frontier
     nxt:nxt dvl visited
     dist:dist+1

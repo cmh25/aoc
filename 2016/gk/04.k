@@ -22,7 +22,7 @@ reals:real'P
 / part 2: decrypt real rooms, find the one about north pole objects
 dec:{[p] s:p 1; az@(s+ic[p 0]-97)!26}
 i:0; ans:0
-while[i<#P;
+while[i<#P
   if[reals i; if[#ss[dec P i;"north"]; ans:(P i)1]]
   i:i+1]
 ans

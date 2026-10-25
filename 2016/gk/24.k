@@ -16,7 +16,7 @@ wall:{"#"=(G x div C)x!C}
 bfs:{[start]
   D:(R*C)#-1; D[start]:0
   fr:,start; d:0
-  while[0<#fr;
+  while[0<#fr
     nf:(); j:0
     while[j<#fr; k:fr j; kr:k div C; kc:k!C
       nb:(((kr-1)*C)+kc; ((kr+1)*C)+kc; k-1; k+1)

@@ -8,10 +8,10 @@ rlt:N#" "; rli:N#0; rht:N#" "; rhi:N#0   / each bot's low/high targets
 / parse rules and seed values
 seed:()
 i:0
-while[i<#L;
+while[i<#L
   t:" "_L i
   if[t[0]~"value"; seed:seed,,(0$t 5;0$t 1)]      / (bot; value)
-  if[t[0]~"bot";
+  if[t[0]~"bot"
      b:0$t 1
      rlt[b]:t 5; rli[b]:0$t 6; rht[b]:t 10; rhi[b]:0$t 11]
   i:i+1]

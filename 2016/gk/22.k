@@ -25,7 +25,7 @@ gnbr:{[k] x:k!W; y:k div W
 / shortest empty-node path to the cell just left of the goal data (W-2,0)
 bfs:{[s;t]
   vis:,s; fr:,s; d:0
-  while[1;
+  while[1
     nx:(?,/gnbr'fr) dvl vis
     d:d+1
     if[t in nx; :d]

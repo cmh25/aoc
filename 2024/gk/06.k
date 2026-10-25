@@ -29,7 +29,7 @@ RO:_cand%w; CO:cand!w
 R:m#sr; C:m#sc; D:m#0
 KR:m#-1; KC:m#-1; KD:m#-1
 loops:0; t:0; nxt:1; cap:8+4*+/,/0+O
-while[(0<#R)&t<cap;
+while[(0<#R)&t<cap
  idx:(R*w)+C
  B:((D=0)*UPf idx)+((D=1)*RTf idx)+((D=2)*DNf idx)+(D=3)*LTf idx
  B:B|(((D=0)&(CO=C)&RO<R)*RO+1)-1         / added obstruction, per direction

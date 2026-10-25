@@ -4,7 +4,7 @@ TOT:4294967296j                         / 2^32 addresses
 
 nxt:0j; allowed:0j; part1:-1
 i:0
-while[i<#R;
+while[i<#R
   s:R[i;0]; e:R[i;1]
   if[s>nxt; if[part1<0; part1:nxt]; allowed+:s-nxt]
   if[(e+1)>nxt; nxt:e+1]

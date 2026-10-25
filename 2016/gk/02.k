@@ -4,10 +4,10 @@ solve:{[grid;r;c]
   nr:#grid; nc:#*grid
   code:()
   i:0
-  while[i<#L;
+  while[i<#L
     line:L i
     j:0
-    while[j<#line;
+    while[j<#line
       m:line j
       pr:r; pc:c
       $[m="U";r:r-1;m="D";r:r+1;m="L";c:c-1;c:c+1]

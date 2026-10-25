@@ -18,7 +18,7 @@ outer:{[go] o:@[25#0; 0 1 2 3 4;+;go 7]; o:@[o;20 21 22 23 24;+;go 17]; o:@[o;0 
 inner:{[gi] c:@[25#0; 7;:;+/gi 0 1 2 3 4]; c:@[c;17;:;+/gi 20 21 22 23 24]; c:@[c;11;:;+/gi 0 5 10 15 20]; @[c;13;:;+/gi 4 9 14 19 24]}
 onestep:{
   NG::G
-  L:1; while[L<NL-1;
+  L:1; while[L<NL-1
     gL:G L; cnt:({+/x*gL}'M)+(outer G L-1)+inner G L+1
     nw:(gL&cnt=1)|(~gL)&(cnt=1)|cnt=2; nw:@[nw;12;:;0]
     @[`NG;L;:;nw]; L+:1]

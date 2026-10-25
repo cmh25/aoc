@@ -9,7 +9,7 @@ NP:#P
 
 test:{[a0]
   r:(a0;0;0;0); pc:0; no:0
-  while[(pc<NP)&no<40;
+  while[(pc<NP)&no<40
     q:P pc; op:q 0; v1:$[q 1; r q 2; q 2]
     if[op=0; r[q 4]:v1; pc:pc+1]
     if[op=1; r[q 2]+:1; pc:pc+1]

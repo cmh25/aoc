@@ -2,9 +2,9 @@ s:*0:"../09.in"
 
 decl:{[s;rec]
   n:#s; i:0; L:0j
-  while[i<n;
+  while[i<n
     c:s[i]
-    if[c="(";
+    if[c="("
        e:i+(i_s)?")"                 / index of matching ')'
        ab:"x"_(i+1)_e#s              / marker "AxB" -> ("A";"B")
        a:0j$ab 0; b:0j$ab 1

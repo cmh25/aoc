@@ -7,13 +7,13 @@ bfsFrom:{[sx;sy]
   vd::(h*w)#-1; rq::(h*w)#0
   s:sx+w*sy; @[`vd;s;:;0]
   q:,s; res:()
-  while[#q;
+  while[#q
     c:*q; q:1_q
     nb:(1+c; c-1; c+w; c-w)
     ei:0
-    while[ei<4;
+    while[ei<4
       nc:nb ei; ch:CG[nc div w]@nc!w
-      if[$[(~ch=35)&(vd nc)<0;1;0];
+      if[$[(~ch=35)&(vd nc)<0;1;0]
          @[`vd;nc;:;1+vd c]
          @[`rq;nc;:;or[rq c;$[(ch>64)&ch<91; P2 ch-65; 0]]]
          q:q,nc
@@ -32,7 +32,7 @@ add:{[x] i:hsh x; c:1; while[c; k:HK i; if[$[k<0;1;k=x]; c:0]; if[c; i:and[i+1;H
 bfsAt:{bfsFrom[x!w;x div w]}
 setup:{[starts] ns::#starts; b2p::@[26#-1; kb; :; ns+!nk]; EGA::(bfsAt'starts),bfsAt'kf}
 hpush:{[d;s] HD::HD,d; HS::HS,s; i:(#HD)-1; c:1
-  while[c;
+  while[c
     if[i=0; c:0]
     if[i>0; p:(i-1)div 2
        if[~HD[p]>HD i; c:0]
@@ -40,7 +40,7 @@ hpush:{[d;s] HD::HD,d; HS::HS,s; i:(#HD)-1; c:1
 hpop:{rd:HD 0; rs:HS 0; n:(#HD)-1
   @[`HD;0;:;HD n]; @[`HS;0;:;HS n]; HD::(-1)_HD; HS::(-1)_HS; n:#HD
   i:0; c:1
-  while[c;
+  while[c
     l:1+2*i; r:2+2*i; mn:i
     if[$[l<n;HD[l]<HD mn;0]; mn:l]
     if[$[r<n;HD[r]<HD mn;0]; mn:r]
@@ -50,19 +50,19 @@ hpop:{rd:HD 0; rs:HS 0; n:(#HD)-1
 solve:{[rp]
   nr:#rp; SH::(0j+MB)*_64^!nr
   HK::HB#-1j; HD::,0; HS::,+/rp*SH; ans:-1; done:0
-  while[$[#HD;~done;0];
+  while[$[#HD;~done;0]
     r:hpop[]; cd:r 0; cs:r 1
-    if[~has cs;
+    if[~has cs
        add cs
        mask:cs!MB
        if[mask=full; ans:cd; done:1]
-       if[~done;
+       if[~done
           ps:(cs div SH)!64; ri:0
-          while[ri<nr;
+          while[ri<nr
             es:EGA ps ri; ne:#es; ej:0
-            while[ej<ne;
+            while[ej<ne
               e:es ej; ej+:1; nb:e 0
-              if[$[and[e 2;mask]=e 2; 0=and[mask;P2 nb]; 0];
+              if[$[and[e 2;mask]=e 2; 0=and[mask;P2 nb]; 0]
                  ns:(or[mask;P2 nb])+ +/(@[ps;ri;:;b2p nb])*SH
                  if[~has ns; hpush[cd+e 1; ns]]]]
             ri+:1]]]]
